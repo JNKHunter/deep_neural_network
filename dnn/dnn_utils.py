@@ -34,7 +34,7 @@ def layer_forward(A, W, b):
       W W(l) x A matrix representing weights
       b W(l) array of biases
     Returns:
-      Dict: Weights and biases labeled W + L
+      Z: Array of length W(l)
     """
     cache = (A, W, b)
     Z = np.dot(W, A) + b
