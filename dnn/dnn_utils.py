@@ -40,3 +40,25 @@ def layer_forward(A, W, b):
     Z = np.dot(W, A) + b
     return Z, cache
 
+def calc_activation(Z, fn):
+    """
+    Calculate the activation for the layer.
+
+    Args:
+      Z: linear forward matrix
+      fn: function that calculates the activation
+
+    Returns:
+      A: the activation matrix
+      Z: the passed in linear forward matrix for caching purposes
+    """
+    A = fn(Z)
+    return A, Z
+
+def sigmoid(Z):
+
+    return 1 / (1 + np.exp(-Z))
+
+def relu(Z):
+
+    return np.maximum(0, Z)

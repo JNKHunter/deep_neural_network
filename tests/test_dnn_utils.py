@@ -14,6 +14,10 @@ def layer_config(input_layer):
 def layers(layer_config):
     return create_layers(layer_config)
 
+@pytest.fixture(scope="module")
+def Z_and_cache(layers, input_layer):
+    return layer_forward(input_layer, layers['W1'], layers['b1'])
+
 def test_create_layers(layers):
 
     assert(layers['W1'].shape == (4, 3))
@@ -21,14 +25,12 @@ def test_create_layers(layers):
     assert(layers['W2'].shape == (5, 4))
     assert(layers['b2'].shape == (5, 1))
 
-def test_layer_forward(layers, input_layer):
-    Z, cache = layer_forward(input_layer, layers['W1'], layers['b1'])
-    print("A-------------")
-    print(input_layer)
-    print("W1-------------")
-    print(layers['W1'])
-    print("b1-------------")
-    print(layers['b1'])
-    print("Z--------------")
-    print(Z)
+def test_calc_activation(Z_and_cache):
+    Z, cache = Z_and_cache
     assert(Z.shape == (4, 4))
+
+    s_calc, cache = calc_activation(Z, sigmoid)
+    r_calc, cache = calc_activation(Z, relu)
+
+    assert(s_calc.shape == (4, 4))
+    assert(r_calc.shape == (4, 4))
