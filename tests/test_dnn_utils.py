@@ -34,3 +34,8 @@ def test_calc_activation(Z_and_cache):
 
     assert(s_calc.shape == (4, 4))
     assert(r_calc.shape == (4, 4))
+
+def test_linear_activation_forward(layers, input_layer):
+    A, cache = linear_activation_forward(input_layer, layers['W1'], layers['b1'], sigmoid)
+    assert(A.shape == (4, 4))
+

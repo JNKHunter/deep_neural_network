@@ -62,3 +62,47 @@ def sigmoid(Z):
 def relu(Z):
 
     return np.maximum(0, Z)
+
+def linear_activation_forward(A_prev, W, b, activation):
+    """
+
+    :param A_prev: Activation matrix of previous layer
+    :param W: Weights matrix of previous layer
+    :param b: Bias array of previous layer
+    :param activation: Activation function (e.g. sigmoid, or relu
+    :return: the linear and activation cache matrices
+    """
+
+    Z, linear_cache = layer_forward(A_prev, W, b)
+    A, activation_cache = calc_activation(Z, activation)
+
+    cache = (linear_cache, activation_cache)
+
+    return A, cache
+
+
+def L_model_forward(X, parameters):
+    """
+    Used to calculate the forward propagation of the network
+    :param X: Input matrix shape of (l, m) where l is the number of input params,and m is the number of training examples
+    :param parameters: a dictionary containing the weights and biases for each layer
+    :return:
+    """
+
+    caches = []
+
+    A = X
+    L = len(parameters) // 2
+
+    for l in range (1, L):
+        A_prev = A
+        A, cache = linear_activation_forward(A_prev, parameters["W" + str(l)], parameters["b" + str(l)], relu)
+        caches.append(cache)
+
+    AL, cache = linear_activation_forward(A, parameters["W" + str(l)], parameters["b" + str(l)], sigmoid)
+    caches.append(cache)
+
+    """
+    TODO: Test this method
+    """
+    return AL, caches
